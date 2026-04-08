@@ -1,36 +1,36 @@
 import java.util.*;
 
-
 public class Main {
+
+    static boolean isPrime(int n) {
+        if (n < 2) return false;
+        for (int i = 2; i <= Math.sqrt(n); i++)
+            if (n % i == 0) return false;
+        return true;
+    }
+
+    static boolean isPerfect(int n) {
+        if (n < 2) return false;
+        int sum = 1;
+        for (int i = 2; i <= Math.sqrt(n); i++) {
+            if (n % i == 0) {
+                sum += i;
+                if (i != n / i) sum += n / i;
+            }
+        }
+        return sum == n;
+    }
+
     public static void main(String[] args) {
         Scanner sc = new Scanner(System.in);
         int n = sc.nextInt();
-
-        int[][] m = new int[n][n];
-        int top = 0, bottom = n-1, left = 0, right = n-1, num = 1;
-
-        while (num <= n * n) {
-            for (int i = left; i <= right; i++)  m[top][i]    = num++;
-            top++;
-            for (int i = top; i <= bottom; i++)  m[i][right]  = num++;
-            right--;
-            for (int i = right; i >= left; i--)  m[bottom][i] = num++;
-            bottom--;
-            for (int i = bottom; i >= top; i--)  m[i][left]   = num++;
-            left++;
-        }
-
         for (int i = 0; i < n; i++) {
-            StringBuilder sb = new StringBuilder();
-            for (int j = 0; j < n; j++) {
-                if (j > 0) sb.append(" ");
-                sb.append(m[i][j]);
-            }
-            System.out.println(sb);
+            int x = sc.nextInt();
+            boolean p = isPrime(x), f = isPerfect(x);
+            if (p && f)       System.out.println("Both");
+            else if (p)       System.out.println("Prime");
+            else if (f)       System.out.println("Perfect");
+            else              System.out.println("Neither");
         }
-
-        int diag = 0;
-        for (int i = 0; i < n; i++) diag += m[i][i];
-        System.out.println("Diagonal: " + diag);
     }
 }
